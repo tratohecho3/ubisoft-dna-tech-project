@@ -5,7 +5,8 @@
   "scripts": {
     "ng": "ng",
     "nx": "nx",
-    "start": "ng serve frontend & ng serve api",
+    "serve": "ng serve frontend & ng serve api",
+    "start": "npm run build && cd dist/apps/api && node main.js",
     "build": "ng build frontend & ng build api",
     "test": "ng test frontend & ng test api",
     "lint": "nx workspace-lint && ng lint",
@@ -29,7 +30,6 @@
   },
   "private": true,
   "dependencies": {
-    "@nrwl/angular": "8.11.2",
     "@angular/animations": "^8.2.0",
     "@angular/common": "^8.2.0",
     "@angular/compiler": "^8.2.0",
@@ -38,13 +38,16 @@
     "@angular/platform-browser": "^8.2.0",
     "@angular/platform-browser-dynamic": "^8.2.0",
     "@angular/router": "^8.2.0",
-    "core-js": "^2.5.4",
-    "rxjs": "~6.4.0",
-    "zone.js": "^0.9.1",
     "@nestjs/common": "^6.8.3",
     "@nestjs/core": "^6.8.3",
     "@nestjs/platform-express": "^6.8.3",
-    "reflect-metadata": "^0.1.13"
+    "@nestjs/serve-static": "^1.0.2",
+    "@nrwl/angular": "8.11.2",
+    "core-js": "^2.5.4",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "~6.4.0",
+    "typescript": "~3.5.3",
+    "zone.js": "^0.9.1"
   },
   "devDependencies": {
     "@angular/cli": "8.3.14",
@@ -71,5 +74,9 @@
     "@nrwl/node": "8.11.2",
     "@nestjs/schematics": "^6.7.0",
     "@nestjs/testing": "^6.8.3"
+  },
+  "engines": {
+    "node": "13.6.0",
+    "npm": "6.13.6"
   }
 }
