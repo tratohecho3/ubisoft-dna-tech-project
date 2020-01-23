@@ -5,9 +5,9 @@
   "scripts": {
     "ng": "ng",
     "nx": "nx",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
+    "start": "ng serve frontend & ng serve api",
+    "build": "ng build frontend & ng build api",
+    "test": "ng test frontend & ng test api",
     "lint": "nx workspace-lint && ng lint",
     "e2e": "ng e2e",
     "affected:apps": "nx affected:apps",
