@@ -1,0 +1,17 @@
+{
+  "extends": "../../tslint.json",
+  "rules": {
+    "directive-selector": [
+      true,
+      "attribute",
+      "ubisoftDnaTechProject",
+      "camelCase"
+    ],
+    "component-selector": [
+      true,
+      "element",
+      "ubisoft-dna-tech-project",
+      "kebab-case"
+    ]
+  }
+}
