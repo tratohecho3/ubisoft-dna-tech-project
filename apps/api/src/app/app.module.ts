@@ -5,7 +5,7 @@ import { join } from 'path'
 
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
-import { configurations } from '../../configs/configurations'
+import configurations from '../../configs/configurations'
 
 @Module({
   imports: [
