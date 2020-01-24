@@ -1,4 +1,11 @@
-<p>twitch-games-streams-viewers-count works!</p>
-<div>
-  {{ (gamesStreamsViewersCount$ | async) | json}}
+<div class="container">
+  <ubisoft-dna-tech-project-linechart
+    *ngIf="gamesStreamsViewersCount$ | async; let gamesStreamsViewersCount; else spinner"
+    label="Games Streams Viewers Count"
+    [data]="gamesStreamsViewersCount | pluck: 'viewersCount'"
+    [dataLabels]="gamesStreamsViewersCount | pluck: 'name'"
+  ></ubisoft-dna-tech-project-linechart>
+  <ng-template #spinner>
+    <p>spinner</p>
+  </ng-template>
 </div>

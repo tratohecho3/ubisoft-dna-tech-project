@@ -3,7 +3,7 @@ import { PubnubService } from '../../services/pubnub.service'
 import { ReplaySubject } from 'rxjs'
 import { GameStreamsViewersCount } from '@ubisoft-dna-tech-project/api-shared'
 import { ApiService } from '../../services/api.service'
-import { tap } from 'rxjs/operators'
+import { tap, throttleTime } from 'rxjs/operators'
 
 @Component({
   selector: 'ubisoft-dna-tech-project-twitch-games-streams-viewers-count',
