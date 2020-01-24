@@ -4,7 +4,11 @@ export interface GameStreamsStats {
   viewersCount?: number
 }
 
-export interface GameStreamsStatsEvent {
-  channel: 'GAMES_STREAMS_STATS_UPDATE'
+export interface GamesStreamsStatsEvent {
+  channel: EnumGamesStreamsEvents.STATS_UPDATE
   message: GameStreamsStats[]
+}
+
+export enum EnumGamesStreamsEvents {
+  STATS_UPDATE = 'GAMES_STREAMS_STATS_UPDATE'
 }

@@ -5,7 +5,7 @@ import { TwitchService } from './twitch.service'
 export class TwitchController {
   constructor(private readonly _twitchService: TwitchService) {}
 
-  @Get('games/viewer-count')
+  @Get('games-viewers-count')
   getGamesStreamsViewersCount() {
     return this._twitchService.getGamesStreamsViewersCount$()
   }

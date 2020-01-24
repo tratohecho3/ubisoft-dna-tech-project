@@ -1,7 +1,8 @@
-import { Module } from '@nestjs/common';
-import { PubnubService } from './pubnub.service';
+import { Module } from '@nestjs/common'
+import { PubnubService } from './pubnub.service'
 
 @Module({
-  providers: [PubnubService]
+  providers: [PubnubService],
+  exports: [PubnubService]
 })
 export class PubnubModule {}

@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import * as PubNub from 'pubnub'
-import { GameStreamsStatsEvent } from '@ubisoft-dna-tech-project/api-shared'
+import {
+  GamesStreamsStatsEvent,
+  EnumGamesStreamsEvents
+} from '@ubisoft-dna-tech-project/api-shared'
 
 @Injectable()
 export class PubnubService {
@@ -15,7 +18,14 @@ export class PubnubService {
     })
   }
 
-  publishGameStreamsStatsEvent(event: GameStreamsStatsEvent) {
+  async hasOccupantsOnChannel(channel: string) {
+    const { totalOccupancy } = await this._pubnub.hereNow({
+      channels: [channel]
+    })
+    return totalOccupancy > 0 ? true : false
+  }
+
+  publishEvent(event: { channel: string; message: any }) {
     return this._pubnub.publish(event)
   }
 }
