@@ -1,1 +1,1 @@
-export * from './lib/game-streams'
+export * from './lib/games-streams-viewers-count'

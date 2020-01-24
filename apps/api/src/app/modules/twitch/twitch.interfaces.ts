@@ -1,11 +1,11 @@
-export interface TwitchStreams {
-  data: TwitchStreamsData[]
+export interface TwitchStreamsPage {
+  data: TwitchStreamsPageData[]
   pagination: {
     cursor: string
   }
 }
 
-export interface TwitchStreamsData {
+export interface TwitchStreamsPageData {
   id: string
   user_id: string
   user_name: string

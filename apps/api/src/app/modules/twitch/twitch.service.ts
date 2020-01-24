@@ -5,8 +5,8 @@ import { map, expand, reduce } from 'rxjs/operators'
 import { EMPTY, Observable } from 'rxjs'
 import {
   TwitchHttpConfig,
-  TwitchStreams,
-  TwitchStreamsData
+  TwitchStreamsPage,
+  TwitchStreamsPageData
 } from './twitch.interfaces'
 
 @Injectable()
@@ -17,7 +17,7 @@ export class TwitchService {
     cursorPosition?: string
   ) =>
     this._httpService
-      .get<TwitchStreams>(
+      .get<TwitchStreamsPage>(
         this._buildGetStreamsDataUrl(gamesIds, cursorPosition),
         this._httpConfig
       )
@@ -50,7 +50,7 @@ export class TwitchService {
    */
   private _getAllStreamsDataWithViewersByGamesIds$(
     gamesIds: string[]
-  ): Observable<TwitchStreamsData[]> {
+  ): Observable<TwitchStreamsPageData[]> {
     /**
      * Gets information about active streams. Streams are returned sorted by number
      * of current viewers, in descending order. Across multiple pages of results,
@@ -81,11 +81,14 @@ export class TwitchService {
        * Reduces the values from source observable to a single value that's emitted
        * when the source completes.
        */
-      reduce((acc: any, value: TwitchStreams) => acc.concat(...value.data), []),
+      reduce(
+        (acc: any, value: TwitchStreamsPage) => acc.concat(...value.data),
+        []
+      ),
       /**
        * Filter out all streams without viewers.
        */
-      map<TwitchStreamsData[], TwitchStreamsData[]>(streams =>
+      map<TwitchStreamsPageData[], TwitchStreamsPageData[]>(streams =>
         streams.filter(stream => stream.viewer_count > 0)
       )
     )

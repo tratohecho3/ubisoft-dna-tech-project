@@ -1,4 +1,4 @@
-import { GameStreamsStats } from '@ubisoft-dna-tech-project/api-shared'
+import { GameStreamsViewersCount } from '@ubisoft-dna-tech-project/api-shared'
 
 export default {
   API_STREAMS: `https://api.twitch.tv/helix/streams`,
@@ -20,5 +20,5 @@ export default {
       id: '506274',
       viewersCount: null
     }
-  ] as GameStreamsStats[]
+  ] as GameStreamsViewersCount[]
 }
