@@ -1,3 +1,5 @@
-export interface Message {
-  message: string
+export interface GameStats {
+  id: string
+  name: string
+  viewersCount?: number
 }
