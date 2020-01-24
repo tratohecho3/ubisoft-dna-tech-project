@@ -1,9 +1,13 @@
 import { Injectable, HttpService } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import constants from './twitch.constants'
-import { map, expand, reduce, filter } from 'rxjs/operators'
-import { EMPTY } from 'rxjs'
-import { TwitchHttpConfig, TwitchStreamsData } from './twitch.interfaces'
+import { map, expand, reduce } from 'rxjs/operators'
+import { EMPTY, Observable } from 'rxjs'
+import {
+  TwitchHttpConfig,
+  TwitchStreams,
+  TwitchStreamsData
+} from './twitch.interfaces'
 
 @Injectable()
 export class TwitchService {
@@ -13,7 +17,7 @@ export class TwitchService {
     cursorPosition?: string
   ) =>
     this._httpService
-      .get<TwitchStreamsData>(
+      .get<TwitchStreams>(
         this._buildGetStreamsDataUrl(gamesIds, cursorPosition),
         this._httpConfig
       )
@@ -44,7 +48,9 @@ export class TwitchService {
   /**
    * Get all streams viewers by games.
    */
-  private _getAllStreamsWithViewersByGamesIds$(gamesIds: string[]) {
+  private _getAllStreamsDataWithViewersByGamesIds$(
+    gamesIds: string[]
+  ): Observable<TwitchStreamsData[]> {
     /**
      * Gets information about active streams. Streams are returned sorted by number
      * of current viewers, in descending order. Across multiple pages of results,
@@ -75,9 +81,12 @@ export class TwitchService {
        * Reduces the values from source observable to a single value that's emitted
        * when the source completes.
        */
-      reduce(
-        (acc: any, value: TwitchStreamsData) => acc.concat(...value.data),
-        []
+      reduce((acc: any, value: TwitchStreams) => acc.concat(...value.data), []),
+      /**
+       * Filter out all streams without viewers.
+       */
+      map<TwitchStreamsData[], TwitchStreamsData[]>(streams =>
+        streams.filter(stream => stream.viewer_count > 0)
       )
     )
   }
@@ -94,14 +103,15 @@ export class TwitchService {
     }
   }
 
+  /**
+   * For all games, sum up the total viewers count from streams data.
+   * @param gamesIds If none given, takes the default ids from constants.
+   */
   getGamesStreamsViewersCount$(
     gamesIds = constants.GAMES.map(game => game.id)
   ) {
-    return this._getAllStreamsWithViewersByGamesIds$(gamesIds).pipe(
-      /**
-       * For all games, sum up the total viewers count from streams data.
-       */
-      map((streams: TwitchStreamsData['data']) =>
+    return this._getAllStreamsDataWithViewersByGamesIds$(gamesIds).pipe(
+      map(streams =>
         constants.GAMES.map(gameStats => ({
           ...gameStats,
           viewersCount: streams
