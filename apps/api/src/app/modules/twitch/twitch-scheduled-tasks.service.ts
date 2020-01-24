@@ -3,8 +3,8 @@ import { PubnubService } from '../pubnub/pubnub.service'
 import { TwitchService } from './twitch.service'
 import { Interval } from '@nestjs/schedule'
 import {
-  EnumGamesStreamsEvents,
-  GamesStreamsStatsEvent
+  GamesStreamsEventsChannelsEnum,
+  GamesStreamsViewersCountEvent
 } from '@ubisoft-dna-tech-project/api-shared'
 import constants from './twitch.constants'
 
@@ -19,9 +19,9 @@ export class TwitchScheduledTasksService {
    * Starts a scheduled task to publish latest game streams stats.
    */
   @Interval(constants.API_SYNC_INTERVAL_IN_MS)
-  async handleGameStreamsStatsUpdates() {
+  async handleGameStreamsViewersCountUpdates() {
     const hasOccupants = await this._pubnubService.hasOccupantsOnChannel(
-      EnumGamesStreamsEvents.STATS_UPDATE
+      GamesStreamsEventsChannelsEnum.STATS_UPDATE
     )
 
     /**
@@ -29,8 +29,8 @@ export class TwitchScheduledTasksService {
      */
     if (!hasOccupants) return
 
-    const event: GamesStreamsStatsEvent = {
-      channel: EnumGamesStreamsEvents.STATS_UPDATE,
+    const event: GamesStreamsViewersCountEvent = {
+      channel: GamesStreamsEventsChannelsEnum.STATS_UPDATE,
       message: await this._twitchService
         .getGamesStreamsViewersCount$()
         .toPromise()

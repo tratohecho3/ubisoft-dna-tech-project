@@ -3,7 +3,14 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  routes: {
+    apiRoot: 'http://localhost:3333/api'
+  },
+  pubnub: {
+    publishKey: 'pub-c-939ab4b1-96b4-4937-8b47-506ed6590f66',
+    subscribeKey: 'sub-c-6ebef5f2-3eb5-11ea-be28-ae0ede4a022d'
+  }
 }
 
 /*
