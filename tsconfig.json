@@ -16,9 +16,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@ubisoft-dna-tech-project/api-interfaces": [
-        "libs/api-interfaces/src/index.ts"
-      ]
+      "@ubisoft-dna-tech-project/api-shared": ["libs/api-shared/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
