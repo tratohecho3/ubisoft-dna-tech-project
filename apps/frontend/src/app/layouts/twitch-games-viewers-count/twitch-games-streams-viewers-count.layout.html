@@ -1,11 +1,11 @@
-<div class="container">
-  <ubisoft-dna-tech-project-linechart
-    *ngIf="gamesStreamsViewersCount$ | async; let gamesStreamsViewersCount; else spinner"
-    label="Games Streams Viewers Count"
-    [data]="gamesStreamsViewersCount | pluck: 'viewersCount'"
-    [dataLabels]="gamesStreamsViewersCount | pluck: 'name'"
-  ></ubisoft-dna-tech-project-linechart>
-  <ng-template #spinner>
-    <p>spinner</p>
-  </ng-template>
-</div>
+<h2>{{title}}</h2>
+<ubisoft-dna-tech-project-linechart
+  class="container"
+  *ngIf="gamesStreamsViewersCount$ | async; let gamesStreamsViewersCount; else spinner"
+  label="Games Streams Viewers Count"
+  [data]="gamesStreamsViewersCount | pluck: 'viewersCount'"
+  [dataLabels]="gamesStreamsViewersCount | pluck: 'name'"
+></ubisoft-dna-tech-project-linechart>
+<ng-template #spinner>
+  <p>spinner</p>
+</ng-template>

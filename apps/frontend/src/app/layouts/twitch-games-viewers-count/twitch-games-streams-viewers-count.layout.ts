@@ -15,6 +15,7 @@ export class TwitchGamesStreamsViewersCountLayout implements OnInit {
     GameStreamsViewersCount[]
   > = new ReplaySubject(1)
 
+  readonly title = 'Realtime Twitch Games Streams Viewers Count'
   get gamesStreamsViewersCount$() {
     return this._gamesStreamsViewersCount$.asObservable()
   }
