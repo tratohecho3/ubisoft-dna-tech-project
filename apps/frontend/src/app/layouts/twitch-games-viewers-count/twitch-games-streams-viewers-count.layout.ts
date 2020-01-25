@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core'
 import { PubnubService } from '../../services/pubnub.service'
 import { ReplaySubject } from 'rxjs'
-import { GameStreamsViewersCount } from '@ubisoft-dna-tech-project/api-shared'
+import {
+  GameStreamsViewersCount,
+  GamesIdsEnum
+} from '@ubisoft-dna-tech-project/api-shared'
 import { ApiService } from '../../services/api.service'
-import { tap, throttleTime } from 'rxjs/operators'
+import { tap, map } from 'rxjs/operators'
 
 @Component({
   selector: 'ubisoft-dna-tech-project-twitch-games-streams-viewers-count',

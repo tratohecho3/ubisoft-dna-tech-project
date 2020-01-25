@@ -1,11 +1,19 @@
 <h2>{{title}}</h2>
-<ubisoft-dna-tech-project-linechart
-  class="container"
+<div
   *ngIf="gamesStreamsViewersCount$ | async; let gamesStreamsViewersCount; else spinner"
-  label="Games Streams Viewers Count"
-  [data]="gamesStreamsViewersCount | pluck: 'viewersCount'"
-  [dataLabels]="gamesStreamsViewersCount | pluck: 'name'"
-></ubisoft-dna-tech-project-linechart>
+>
+  <ng-container *ngFor="let game of gamesStreamsViewersCount">
+    <mdb-badge color="yellow darken-2" class="mr-2 mb-3"
+      >{{ game.abrev }} - {{ game.viewersCount }}</mdb-badge
+    >
+  </ng-container>
+  <ubisoft-dna-tech-project-linechart
+    class="container"
+    label="Games Streams Viewers Count"
+    [data]="gamesStreamsViewersCount | pluck: 'viewersCount'"
+    [dataLabels]="gamesStreamsViewersCount | pluck: 'name'"
+  ></ubisoft-dna-tech-project-linechart>
+</div>
 <ng-template #spinner>
-  <p>spinner</p>
+  <p>Loading data...</p>
 </ng-template>

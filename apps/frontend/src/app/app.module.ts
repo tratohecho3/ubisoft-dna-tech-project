@@ -7,7 +7,7 @@ import { TwitchGamesStreamsViewersCountLayout } from './layouts/twitch-games-vie
 import { PubnubService } from './services/pubnub.service'
 import { LinechartComponent } from './components/linechart/linechart.component'
 import { PubNubAngular } from 'pubnub-angular2'
-import { ChartsModule } from 'angular-bootstrap-md'
+import { ChartsModule, BadgeModule } from 'angular-bootstrap-md'
 import { NgArrayPipesModule } from 'ngx-pipes'
 
 @NgModule({
@@ -21,7 +21,8 @@ import { NgArrayPipesModule } from 'ngx-pipes'
     HttpClientModule,
     AppRoutingModule,
     ChartsModule,
-    NgArrayPipesModule
+    NgArrayPipesModule,
+    BadgeModule
   ],
   providers: [PubnubService, PubNubAngular],
   bootstrap: [AppComponent]

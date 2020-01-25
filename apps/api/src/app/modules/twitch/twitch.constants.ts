@@ -1,4 +1,9 @@
-import { GameStreamsViewersCount } from '@ubisoft-dna-tech-project/api-shared'
+import {
+  GameStreamsViewersCount,
+  GamesNamesEnum,
+  GamesIdsEnum,
+  GamesAbrevEnum
+} from '@ubisoft-dna-tech-project/api-shared'
 
 export default {
   API_STREAMS: `https://api.twitch.tv/helix/streams`,
@@ -6,18 +11,21 @@ export default {
   API_SYNC_INTERVAL_IN_MS: 5000,
   GAMES: [
     {
-      name: 'Rainbow Six Siege',
-      id: '460630',
+      name: GamesNamesEnum.RAINBOW_SIX_SIEGE,
+      id: GamesIdsEnum.RAINBOW_SIX_SIEGE,
+      abrev: GamesAbrevEnum.RAINBOW_SIX_SIEGE,
       viewersCount: null
     },
     {
-      name: 'Far Cry 5',
-      id: '497078',
+      name: GamesNamesEnum.FAR_CRY_5,
+      id: GamesIdsEnum.FAR_CRY_5,
+      abrev: GamesAbrevEnum.FAR_CRY_5,
       viewersCount: null
     },
     {
-      name: 'Assassin’s Creed Odyssey',
-      id: '506274',
+      name: GamesNamesEnum.ASSASSINS_CREED_ODYSSEY,
+      id: GamesIdsEnum.ASSASSINS_CREED_ODYSSEY,
+      abrev: GamesAbrevEnum.ASSASSINS_CREED_ODYSSEY,
       viewersCount: null
     }
   ] as GameStreamsViewersCount[]
