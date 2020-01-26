@@ -7,6 +7,6 @@ export class TwitchController {
 
   @Get('games-viewers-count')
   getGamesStreamsViewersCount() {
-    return this._twitchService.getGamesStreamsViewersCount$()
+    return this._twitchService.getGamesStreamsViewersCount()
   }
 }

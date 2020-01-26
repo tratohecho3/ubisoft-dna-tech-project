@@ -32,7 +32,7 @@ export class TwitchScheduledTasksService {
     const event: GamesStreamsViewersCountEvent = {
       channel: GamesStreamsEventsChannelsEnum.STATS_UPDATE,
       message: await this._twitchService
-        .getGamesStreamsViewersCount$()
+        .getGamesStreamsViewersCount()
         .toPromise()
     }
 

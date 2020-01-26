@@ -1,8 +1,8 @@
 import { Injectable, HttpService } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import constants from './twitch.constants'
-import { map, expand, reduce } from 'rxjs/operators'
-import { EMPTY, Observable } from 'rxjs'
+import { map, expand, reduce, retryWhen, delayWhen } from 'rxjs/operators'
+import { EMPTY, Observable, timer, throwError } from 'rxjs'
 import {
   TwitchHttpConfig,
   TwitchStreamsPage,
@@ -12,22 +12,18 @@ import {
 @Injectable()
 export class TwitchService {
   private readonly _httpConfig: TwitchHttpConfig
-  private readonly _requestStreamsViewerCount$ = (
-    gamesIds: string[],
-    cursorPosition?: string
-  ) =>
-    this._httpService
-      .get<TwitchStreamsPage>(
-        this._buildGetStreamsDataUrl(gamesIds, cursorPosition),
-        this._httpConfig
-      )
-      .pipe(
-        map(({ data: { data, pagination } }) => ({
-          data,
-          cursorPosition,
-          nextCursorPosition: pagination.cursor
-        }))
-      )
+
+  constructor(
+    private readonly _configService: ConfigService,
+    private readonly _httpService: HttpService
+  ) {
+    this._httpConfig = {
+      headers: {
+        'client-id': this._configService.get('twitch.clientId'),
+        authorization: `Bearer ${this._configService.get('twitch.token')}`
+      }
+    }
+  }
 
   /**
    * Documentations for `/streams` [API doc on Streams](https://dev.twitch.tv/docs/api/reference#get-streams)
@@ -46,6 +42,40 @@ export class TwitchService {
   }
 
   /**
+   * If we reach the API request limit, retry the request in a certain delay.
+   */
+  private _handleAPILimit() {
+    return retryWhen(error =>
+      error.pipe(
+        delayWhen((err: any) =>
+          err.response.status === constants.API_TOO_MANY_REQUEST_STATUS_CODE
+            ? timer(constants.API_TOO_MANY_REQUEST_RETRY_DELAY)
+            : throwError(err)
+        )
+      )
+    )
+  }
+
+  private _requestStreamsViewerCount(
+    gamesIds: string[],
+    cursorPosition?: string
+  ) {
+    return this._httpService
+      .get<TwitchStreamsPage>(
+        this._buildGetStreamsDataUrl(gamesIds, cursorPosition),
+        this._httpConfig
+      )
+      .pipe(
+        this._handleAPILimit(),
+        map(({ data: { data, pagination } }: { data: TwitchStreamsPage }) => ({
+          data,
+          cursorPosition,
+          nextCursorPosition: pagination.cursor
+        }))
+      )
+  }
+
+  /**
    * Get all streams viewers by games.
    */
   private _getAllStreamsDataWithViewersByGamesIds$(
@@ -55,8 +85,7 @@ export class TwitchService {
      * Gets information about active streams. Streams are returned sorted by number
      * of current viewers, in descending order. Across multiple pages of results,
      */
-    return this._requestStreamsViewerCount$(gamesIds).pipe(
-      // TODO: Add throttle logic
+    return this._requestStreamsViewerCount(gamesIds).pipe(
       /**
        * Recursively call request with the nextCursor position to fetch all remaining
        * streams until we hit the last page or a page that contains a viewer_count
@@ -70,7 +99,7 @@ export class TwitchService {
 
         if (!reachedLastPage && !reachedLastStreamsPageWithViewers) {
           cursorPosition = nextCursorPosition
-          return this._requestStreamsViewerCount$(gamesIds, cursorPosition)
+          return this._requestStreamsViewerCount(gamesIds, cursorPosition)
         }
         /**
          * We reached the last page, complete the observable.
@@ -94,25 +123,11 @@ export class TwitchService {
     )
   }
 
-  constructor(
-    private readonly _configService: ConfigService,
-    private readonly _httpService: HttpService
-  ) {
-    this._httpConfig = {
-      headers: {
-        'client-id': this._configService.get('twitch.clientId'),
-        authorization: `Bearer ${this._configService.get('twitch.token')}`
-      }
-    }
-  }
-
   /**
    * For all games, sum up the total viewers count from streams data.
    * @param gamesIds If none given, takes the default ids from constants.
    */
-  getGamesStreamsViewersCount$(
-    gamesIds = constants.GAMES.map(game => game.id)
-  ) {
+  getGamesStreamsViewersCount(gamesIds = constants.GAMES.map(game => game.id)) {
     return this._getAllStreamsDataWithViewersByGamesIds$(gamesIds).pipe(
       map(streams =>
         constants.GAMES.map(gameStats => ({

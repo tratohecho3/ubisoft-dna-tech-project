@@ -9,6 +9,8 @@ export default {
   API_STREAMS: `https://api.twitch.tv/helix/streams`,
   API_MAX_OBJECTS_TO_RETURN: 100,
   API_SYNC_INTERVAL_IN_MS: 5000,
+  API_TOO_MANY_REQUEST_STATUS_CODE: 429,
+  API_TOO_MANY_REQUEST_RETRY_DELAY: 3000,
   GAMES: [
     {
       name: GamesNamesEnum.RAINBOW_SIX_SIEGE,
