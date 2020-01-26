@@ -18,13 +18,35 @@ export class LinechartComponent implements OnInit, OnChanges {
 
   readonly chartType = 'line'
   readonly chartOptions = {
-    responsive: true
+    responsive: true,
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true,
+            fontColor: '#c8b7d2'
+          }
+        }
+      ],
+      xAxes: [
+        {
+          ticks: {
+            fontColor: '#c8b7d2'
+          }
+        }
+      ]
+    },
+    legend: {
+      labels: {
+        fontColor: '#c8b7d2'
+      }
+    }
   }
   readonly chartColors = [
     {
-      backgroundColor: 'rgba(0, 137, 132, .2)',
-      borderColor: 'rgba(0, 10, 130, .7)',
-      borderWidth: 2
+      backgroundColor: 'rgba(156, 29, 231, 0.2)',
+      borderColor: 'rgba(156, 29, 231, 1)',
+      borderWidth: 3
     }
   ]
 

@@ -3,12 +3,11 @@
   *ngIf="gamesStreamsViewersCount$ | async; let gamesStreamsViewersCount; else spinner"
 >
   <ng-container *ngFor="let game of gamesStreamsViewersCount">
-    <mdb-badge color="yellow darken-2" class="mr-2 mb-3"
+    <mdb-badge color="purple darken-2" class="mr-2 mb-3"
       >{{ game.abrev }} - {{ game.viewersCount }}</mdb-badge
     >
   </ng-container>
   <ubisoft-dna-tech-project-linechart
-    class="container"
     label="Games Streams Viewers Count"
     [data]="gamesStreamsViewersCount | pluck: 'viewersCount'"
     [dataLabels]="gamesStreamsViewersCount | pluck: 'name'"
