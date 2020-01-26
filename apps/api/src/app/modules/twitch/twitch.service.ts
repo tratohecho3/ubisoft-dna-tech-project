@@ -79,7 +79,7 @@ export class TwitchService {
    * Get all streams viewers by games.
    */
   private _getAllStreamsDataWithViewersByGamesIds$(
-    gamesIds: string[]
+    gamesIds = constants.GAMES.map(game => game.id)
   ): Observable<TwitchStreamsPageData[]> {
     /**
      * Gets information about active streams. Streams are returned sorted by number
@@ -125,10 +125,9 @@ export class TwitchService {
 
   /**
    * For all games, sum up the total viewers count from streams data.
-   * @param gamesIds If none given, takes the default ids from constants.
    */
-  getGamesStreamsViewersCount(gamesIds = constants.GAMES.map(game => game.id)) {
-    return this._getAllStreamsDataWithViewersByGamesIds$(gamesIds).pipe(
+  getGamesStreamsViewersCount() {
+    return this._getAllStreamsDataWithViewersByGamesIds$().pipe(
       map(streams =>
         constants.GAMES.map(gameStats => ({
           ...gameStats,
