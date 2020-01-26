@@ -3,7 +3,10 @@
   *ngIf="gamesStreamsViewersCount$ | async; let gamesStreamsViewersCount; else spinner"
 >
   <ng-container *ngFor="let game of gamesStreamsViewersCount">
-    <mdb-badge color="purple darken-2" class="mr-2 mb-3"
+    <mdb-badge
+      color="purple darken-2"
+      class="mr-2 mb-3"
+      [mdbTooltip]="game.name + ' Stream Viewers Count'"
       >{{ game.abrev }} - {{ game.viewersCount }}</mdb-badge
     >
   </ng-container>
