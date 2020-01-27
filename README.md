@@ -27,7 +27,7 @@ Run `npm run start` to serve the build on http://localhost:3333/ who serve the *
 
 ## Deploy
 
-Automatically deploys when pushing changes on master.
+Automatically deploys when pushing changes on `master` branch.
 
 ## API Routes
 
