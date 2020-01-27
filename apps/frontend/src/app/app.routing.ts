@@ -3,7 +3,8 @@ import { Routes, RouterModule } from '@angular/router'
 import { TwitchGamesStreamsViewersCountLayout } from './layouts/twitch-games-viewers-count/twitch-games-streams-viewers-count.layout'
 
 const routes: Routes = [
-  { path: '**', component: TwitchGamesStreamsViewersCountLayout }
+  { path: '', component: TwitchGamesStreamsViewersCountLayout },
+  { path: '**', redirectTo: '' }
 ]
 
 @NgModule({
