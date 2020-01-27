@@ -12,10 +12,10 @@
 
 First run `npm install` to install all dependencies.
 
-Run `npm run serve` to start both **frontend/backend** dev servers.
+Run `npm run serve` to start both **frontend/api** dev servers.
 
 - **frontend**: navigate to http://localhost:4200/
-- **backend**: available at http://localhost:3333/
+- **api**: available at http://localhost:3333/
 
 The app will automatically reload if you change any of the source files.
 
@@ -23,7 +23,9 @@ The app will automatically reload if you change any of the source files.
 
 Run `npm run build` to build the project. The build artifacts for both **frontend & api** will be stored in the `dist/` directory.
 
-## Routes
+Run `npm run start` to serve the build on http://localhost:3333/ who serve the **frontend** app.
+
+## API Routes
 
 **GET** /api/twitch/games-viewers-count
 
