@@ -25,6 +25,10 @@ Run `npm run build` to build the project. The build artifacts for both **fronten
 
 Run `npm run start` to serve the build on http://localhost:3333/ who serve the **frontend** app.
 
+## Deploy
+
+Automatically deploys when pushing changes on master.
+
 ## API Routes
 
 **GET** /api/twitch/games-viewers-count
